@@ -11,11 +11,22 @@ public class Board {
 		board = new Cell[aRows][aCols];
 		rows = aRows;
 		cols = aCols;
+		
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				board[i][j] = new Cell(CellState.EMPTY); // no color
 			}
 		}
+		
+		for (int i = 9; i < 10; i++) {
+			for (int j = 0; j < cols; j++) {
+				board[i][j] = new Cell(CellState.WATER); // no color
+			}
+		}
+		
+		board[14][7] = new Cell(CellState.P1);
+
+		
 	}
 	
 	public int getRows(){

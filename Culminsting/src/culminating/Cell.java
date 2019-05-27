@@ -22,13 +22,15 @@ public class Cell {
 	public String toString() {
 		switch (state) {
 		case P1:
-			return ".O.";
-		case P2:
-			return "X";
+			return "O";
+		case WATER:
+			return "W";
+		case LOG:
+			return "L";
 		case EMPTY:
-			return ". .";
+			return ".";
 		default:
-			return "-";
+			return ".";
 		}
 	}
 }
