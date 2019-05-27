@@ -29,6 +29,8 @@ public class Cell {
 			return "L";
 		case EMPTY:
 			return ".";
+		case FINISH:
+			return "F";
 		default:
 			return ".";
 		}

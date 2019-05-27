@@ -53,33 +53,33 @@ public class CulminstingDriver extends Application {
 	
 	
 	@Override public void start(Stage stage) throws Exception {
-		final int WIDTH = 800;
-		final int HEIGHT = 880;
+		final int WIDTH = 750;
+		final int HEIGHT = 750;
 	    final int BUTTON_WIDTH = 100;
 		final int BUTTON_HEIGHT = (HEIGHT - 80) / ROWS;
 		
 		VBox layout = new VBox();
 
 		HBox selectorsROW1 = new HBox();
-		selectorsROW1.setPadding(new Insets(20, 20, 0, WIDTH/2));
+		selectorsROW1.setPadding(new Insets(20, 20, 0, WIDTH/2 + BUTTON_WIDTH));
 		HBox selectorsROW2 = new HBox();
-		selectorsROW2.setPadding(new Insets(0, 20, 20, 20));
+		selectorsROW2.setPadding(new Insets(0, 20, 20, WIDTH/2));
 			
 		Button btnUP = new Button();
 		btnUP.setStyle("-fx-base: #000000;");
-		btnUP.setPrefSize(WIDTH / 4, BUTTON_HEIGHT * 2);
+		btnUP.setPrefSize(WIDTH / 8, BUTTON_HEIGHT * 2);
 		
 		Button btnRIGHT = new Button();
 		btnRIGHT.setStyle("-fx-base: #000000;");
-		btnRIGHT.setPrefSize(WIDTH / 4, BUTTON_HEIGHT * 2);
+		btnRIGHT.setPrefSize(WIDTH / 8, BUTTON_HEIGHT * 2);
 		
 		Button btnDOWN = new Button();
 		btnDOWN.setStyle("-fx-base: #000000;");
-		btnDOWN.setPrefSize(WIDTH / 4, BUTTON_HEIGHT * 2);
+		btnDOWN.setPrefSize(WIDTH / 8, BUTTON_HEIGHT * 2);
 		
 		Button btnLEFT = new Button();
 		btnLEFT.setStyle("-fx-base: #000000;");
-		btnLEFT.setPrefSize(WIDTH / 4, BUTTON_HEIGHT * 2);
+		btnLEFT.setPrefSize(WIDTH / 8, BUTTON_HEIGHT * 2);
 		
 				
 		
@@ -172,7 +172,7 @@ public class CulminstingDriver extends Application {
 		selectorsROW1.getChildren().addAll(btnUP);
 		layout.getChildren().add(selectorsROW1);
 		
-		selectorsROW2.getChildren().addAll(btnRIGHT, btnDOWN, btnLEFT);
+		selectorsROW2.getChildren().addAll(btnLEFT, btnDOWN, btnRIGHT);
 		layout.getChildren().add(selectorsROW2);
 		
 		layout.getChildren().add(grid);
@@ -195,6 +195,9 @@ public class CulminstingDriver extends Application {
 				case P1:
 					slots[i][j].setStyle("-fx-base: #00ff00;");
 					break;
+				case FINISH:
+					slots[i][j].setStyle("-fx-base: #ffff00;");
+					break;
 				case LOG:
 					slots[i][j].setStyle("-fx-base: #ffff00;");
 					break;
@@ -212,36 +215,44 @@ public class CulminstingDriver extends Application {
 		board.getCell(py, px).setState(CellState.EMPTY);
 		
 		if(py > 0){
-			if(board.getCell(py-1, px).getState() == CellState.WATER) {
-				hurt();
-			}
-			else if(direction.equals("UP")) {
-				py --;
+			if(direction.equals("UP")) {
+				if(board.getCell(py-1, px).getState() == CellState.WATER) {
+					hurt();
+				}
+				else{
+					py --;
+				}
 			}
 		}
 		if(px < COLS-1){
-			if(board.getCell(py, px+1).getState() == CellState.WATER) {
-				hurt();
-			}
-			else if(direction.equals("RIGHT")) {
-				px ++;
+			if(direction.equals("RIGHT")) {
+				if(board.getCell(py, px+1).getState() == CellState.WATER) {
+					hurt();
+				}
+				else{
+					px ++;
+				}
 			}
 		}
 		if(py < ROWS-1) {
-			if(board.getCell(py+1, px).getState() == CellState.WATER) {
-				hurt();
-			}
-			else if (direction.equals("DOWN")) {
-				py ++;
+			if (direction.equals("DOWN")) {
+				if(board.getCell(py+1, px).getState() == CellState.WATER) {
+					hurt();
+				}
+				else{
+					py ++;
+				}
 			}
 		}
 		
 		if(px > 0) { 
-			if(board.getCell(py, px-1).getState() == CellState.WATER) {
-				hurt();
-			}
-			else if(direction.equals("LEFT")) {
-				px --;
+			if(direction.equals("LEFT")) {
+				if(board.getCell(py, px-1).getState() == CellState.WATER) {
+					hurt();
+				}
+				else{
+					px --;
+				}
 			}
 		}
 		
