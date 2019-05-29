@@ -55,7 +55,6 @@ public class CulminstingDriver extends Application {
 	}
 	
 	
-	
 	@Override public void start(Stage stage) throws Exception {
 		final int WIDTH = 750;
 		final int HEIGHT = 750;

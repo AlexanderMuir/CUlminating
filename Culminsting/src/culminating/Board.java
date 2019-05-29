@@ -47,9 +47,6 @@ public class Board {
 		return board[x][y];
 	}
 	
-		
-	
-	
 	public void display() {
 		System.out.println("BOARD");
 		for (int i = 0; i < rows; i++) {
