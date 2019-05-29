@@ -36,6 +36,10 @@ public class CulminstingDriver extends Application {
 	static int px = 7;
 	static int py = 14;
 	static int lives = 5;
+	
+	static int[][] lcar = new int[5][5];
+	static int[][] rcar = new int[5][5];
+	
 	String direction = "";
 	
 	boolean done = false;
@@ -80,6 +84,10 @@ public class CulminstingDriver extends Application {
 		Button btnLEFT = new Button();
 		btnLEFT.setStyle("-fx-base: #000000;");
 		btnLEFT.setPrefSize(WIDTH / 8, BUTTON_HEIGHT * 2);
+		
+		Button btnNONE = new Button();
+		btnNONE.setStyle("-fx-base: #ff0000;");
+		btnNONE.setPrefSize(WIDTH / 8, BUTTON_HEIGHT * 2);
 		
 				
 		
@@ -165,11 +173,18 @@ public class CulminstingDriver extends Application {
 			}
 		});
 		
+		btnNONE.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}
+		});
+		
 		
 		updateBoard2(board, slots);
 	
 			
-		selectorsROW1.getChildren().addAll(btnUP);
+		selectorsROW1.getChildren().addAll(btnUP, btnNONE);
 		layout.getChildren().add(selectorsROW1);
 		
 		selectorsROW2.getChildren().addAll(btnLEFT, btnDOWN, btnRIGHT);
@@ -197,6 +212,12 @@ public class CulminstingDriver extends Application {
 					break;
 				case FINISH:
 					slots[i][j].setStyle("-fx-base: #ffff00;");
+					break;
+				case LCAR:
+					slots[i][j].setStyle("-fx-base: #808080;");
+					break;
+				case RCAR:
+					slots[i][j].setStyle("-fx-base: #808080;");
 					break;
 				case LOG:
 					slots[i][j].setStyle("-fx-base: #ffff00;");
@@ -278,5 +299,7 @@ public class CulminstingDriver extends Application {
 		return done;
 	}
 
-
+	public static void moveCars() {
+		
+	}
 }

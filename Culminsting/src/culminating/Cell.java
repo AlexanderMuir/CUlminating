@@ -31,6 +31,10 @@ public class Cell {
 			return ".";
 		case FINISH:
 			return "F";
+		case LCAR:
+			return "LC";
+		case RCAR:
+			return "RC";
 		default:
 			return ".";
 		}

@@ -59,4 +59,18 @@ public class Board {
 			System.out.println();
 		}
 	}
+	
+	public void makeLCars(int cars[][]){
+		for(int i = 0; i< cars.length; i++) {
+			board[0][7] = new Cell(CellState.LCAR);
+		}
+		
+	}
+	
+	public void makeRCars(int cars[][]){
+		for(int i = 0; i< cars.length; i++) {
+			board[0][7] = new Cell(CellState.RCAR);
+		}
+		
+	}
 }
