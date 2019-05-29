@@ -50,7 +50,7 @@ public class CulminstingDriver extends Application {
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-		launch(args);
+		 launch(args);
 		
 	}
 	
