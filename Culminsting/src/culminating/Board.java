@@ -18,7 +18,7 @@ public class Board {
 			}
 		}
 		
-		for (int i = 9; i < 10; i++) {
+		for (int i = 12; i < 13; i++) {
 			for (int j = 2; j < cols; j++) {
 				board[i][j] = new Cell(CellState.WATER); // no color
 			}
@@ -57,17 +57,9 @@ public class Board {
 		}
 	}
 	
-	public void makeLCars(int cars[][]){
-		for(int i = 0; i< cars.length; i++) {
-			board[0][7] = new Cell(CellState.LCAR);
-		}
-		
+	public void makeCars(int i, int j){
+		board[i][j] = new Cell(CellState.CAR);	
 	}
 	
-	public void makeRCars(int cars[][]){
-		for(int i = 0; i< cars.length; i++) {
-			board[0][7] = new Cell(CellState.RCAR);
-		}
-		
-	}
+
 }

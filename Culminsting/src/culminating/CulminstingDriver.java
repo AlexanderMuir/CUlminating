@@ -35,12 +35,29 @@ public class CulminstingDriver extends Application {
 	
 	static int px = 7;
 	static int py = 14;
-	static int lives = 5;
-	
-	static int[][] lcar = new int[5][5];
-	static int[][] rcar = new int[5][5];
+	static int lives = 5;	
 	
 	String direction = "";
+	
+	static int[][] lCarCoords = {
+			{1,1},
+			{2,2},
+			{3,3},
+			
+	};
+	
+	static int[][] rCarCoords = {
+			{COLS-2,1},
+			{COLS-3,2},
+			{COLS-4,3},
+			
+	};
+	
+	static int numlCars = lCarCoords.length;
+	static int numRCars = rCarCoords.length;
+	
+	static Car[] lCars = new Car[numlCars];
+	static Car[] rCars = new Car[numRCars];
 	
 	boolean done = false;
 	
@@ -99,6 +116,19 @@ public class CulminstingDriver extends Application {
 		}
 		
 		
+		for (int i = 0; i < numlCars; i++) {
+			lCars[i] = new Car(0,lCarCoords[i][1], lCarCoords[i][0]);
+			board.makeCars(lCarCoords[i][1], lCarCoords[i][0]);
+		}
+		
+		
+		for (int i = 0; i < numRCars; i++) {
+			rCars[i] = new Car(1,rCarCoords[i][1], rCarCoords[i][0]);
+			board.makeCars(rCarCoords[i][1], rCarCoords[i][0]);
+		}
+		
+		
+		
 		board.display();
 		
 			
@@ -123,6 +153,8 @@ public class CulminstingDriver extends Application {
 				try {
 					updateBoard(direction);
 					updateBoard2(board, slots);
+					moveCars();
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -137,6 +169,8 @@ public class CulminstingDriver extends Application {
 				try {
 					updateBoard(direction);
 					updateBoard2(board, slots);
+					moveCars();
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -151,6 +185,8 @@ public class CulminstingDriver extends Application {
 				try {
 					updateBoard(direction);
 					updateBoard2(board, slots);
+					moveCars();
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -165,6 +201,8 @@ public class CulminstingDriver extends Application {
 				try {
 					updateBoard(direction);
 					updateBoard2(board, slots);
+					moveCars();
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -175,7 +213,7 @@ public class CulminstingDriver extends Application {
 		btnNONE.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+				moveCars();
 			}
 		});
 		
@@ -212,10 +250,8 @@ public class CulminstingDriver extends Application {
 				case FINISH:
 					slots[i][j].setStyle("-fx-base: #ffff00;");
 					break;
-				case LCAR:
-					slots[i][j].setStyle("-fx-base: #808080;");
-					break;
-				case RCAR:
+				case CAR:
+					System.out.println(i + ", " + j);
 					slots[i][j].setStyle("-fx-base: #808080;");
 					break;
 				case LOG:
@@ -278,6 +314,8 @@ public class CulminstingDriver extends Application {
 		
 		
 		board.getCell(py, px).setState(CellState.P1);
+	
+		
 	}
 	
 	
@@ -297,8 +335,25 @@ public class CulminstingDriver extends Application {
 		}
 		return done;
 	}
-
+	
 	public static void moveCars() {
+		for(int i = 0; i < lCars.length; i++) {
+			
+			board.getCell(lCars[i].getY(), lCars[i].getX()).setState(CellState.EMPTY);
+			System.out.println("x,y; " + lCars[i].getX() + ", " + lCars[i].getY());
+			lCars[i].setX(lCars[i].getX() + 1);
+			board.getCell(lCars[i].getY(), lCars[i].getX()).setState(CellState.CAR);
+			System.out.println("x,y; " + lCars[i].getX() + ", " + lCars[i].getY());
+			
+		}
+		
+		for(int i = 0; i < rCars.length; i++) {
+			board.getCell(rCars[i].getY(), rCars[i].getX()).setState(CellState.EMPTY);
+			rCars[i].setX(rCars[i].getX() - 1);
+			board.getCell(rCars[i].getY(), rCars[i].getX()).setState(CellState.CAR);
+			
+		}
 		
 	}
+	
 }
