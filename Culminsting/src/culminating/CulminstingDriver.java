@@ -53,11 +53,26 @@ public class CulminstingDriver extends Application {
 			
 	};
 	
+	static int[][] lLogCoords = {
+			{10,10},
+			{11,10},
+			{12,10},
+			
+	};
+	
+	static int[][] rLogCoords = {
+			{9,12},
+			{10,12},
+			{11,12},
+			
+	};
+	
 	static int numLCars = lCarCoords.length;
 	static int numRCars = rCarCoords.length;
 	
-	//static Car[] lCars = new Car[numlCars];
-	//static Car[] rCars = new Car[numRCars];
+	static int numLLogs = lLogCoords.length;
+	static int numRLogs = rLogCoords.length;
+	
 	
 	boolean done = false;
 	
@@ -143,6 +158,7 @@ public class CulminstingDriver extends Application {
 					updateBoard(direction);
 					updateSlots(board, slots);
 					moveCars();
+					moveLogs();
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -159,6 +175,8 @@ public class CulminstingDriver extends Application {
 					updateBoard(direction);
 					updateSlots(board, slots);
 					moveCars();
+					moveLogs();
+					
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -175,6 +193,7 @@ public class CulminstingDriver extends Application {
 					updateBoard(direction);
 					updateSlots(board, slots);
 					moveCars();
+					moveLogs();
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -191,6 +210,7 @@ public class CulminstingDriver extends Application {
 					updateBoard(direction);
 					updateSlots(board, slots);
 					moveCars();
+					moveLogs();
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -204,6 +224,7 @@ public class CulminstingDriver extends Application {
 			public void handle(ActionEvent event) {
 				updateSlots(board, slots);
 				moveCars();
+				moveLogs();
 			}
 		});
 		
@@ -350,6 +371,35 @@ public class CulminstingDriver extends Application {
 			}
 			rCarCoords[i][0]--;
 			board.getCell(rCarCoords[i][1], rCarCoords[i][0]).setState(CellState.CAR);
+		}
+		
+	}
+	
+	public static void moveLogs() {
+		for(int i = 0; i < numLLogs; i++) {
+			
+			board.getCell(lLogCoords[i][1], lLogCoords[i][0]).setState(CellState.WATER);
+			
+			if(lLogCoords[i][0] == COLS-1) {
+				lLogCoords[i][0] = 0;
+			}
+			else{
+				lLogCoords[i][0]++;
+			}
+			board.getCell(lLogCoords[i][1], lLogCoords[i][0]).setState(CellState.LOG);
+			
+			
+		}
+		
+		for(int i = 0; i < numRLogs; i++) {
+		
+			board.getCell(rLogCoords[i][1], rLogCoords[i][0]).setState(CellState.WATER);
+			
+			if(rLogCoords[i][0] == 0) {
+				rLogCoords[i][0]= COLS;
+			}
+			rLogCoords[i][0]--;
+			board.getCell(rLogCoords[i][1], rLogCoords[i][0]).setState(CellState.LOG);
 		}
 		
 	}

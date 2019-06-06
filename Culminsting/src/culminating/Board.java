@@ -18,8 +18,8 @@ public class Board {
 			}
 		}
 		
-		for (int i = 12; i < 13; i++) {
-			for (int j = 2; j < cols; j++) {
+		for (int i = 9; i < 13; i++) {
+			for (int j = 0; j < cols; j++) {
 				board[i][j] = new Cell(CellState.WATER); // no color
 			}
 		}
