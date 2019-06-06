@@ -29,7 +29,7 @@ import javafx.geometry.Pos;
 import culminating.Board;
 
 public class CulminstingDriver extends Application {
-	private static final int      KEYBOARD_MOVEMENT_DELTA = 30;
+	
 	final static int ROWS = 15;
 	final static int COLS = 15;
 	
@@ -47,17 +47,17 @@ public class CulminstingDriver extends Application {
 	};
 	
 	static int[][] rCarCoords = {
-			{COLS-2,1},
-			{COLS-3,2},
-			{COLS-4,3},
+			{COLS-2,4},
+			{COLS-3,5},
+			{COLS-4,6},
 			
 	};
 	
-	static int numlCars = lCarCoords.length;
+	static int numLCars = lCarCoords.length;
 	static int numRCars = rCarCoords.length;
 	
-	static Car[] lCars = new Car[numlCars];
-	static Car[] rCars = new Car[numRCars];
+	//static Car[] lCars = new Car[numlCars];
+	//static Car[] rCars = new Car[numRCars];
 	
 	boolean done = false;
 	
@@ -115,18 +115,7 @@ public class CulminstingDriver extends Application {
 			}
 		}
 		
-		
-		for (int i = 0; i < numlCars; i++) {
-			lCars[i] = new Car(0,lCarCoords[i][1], lCarCoords[i][0]);
-			board.makeCars(lCarCoords[i][1], lCarCoords[i][0]);
-		}
-		
-		
-		for (int i = 0; i < numRCars; i++) {
-			rCars[i] = new Car(1,rCarCoords[i][1], rCarCoords[i][0]);
-			board.makeCars(rCarCoords[i][1], rCarCoords[i][0]);
-		}
-		
+	
 		
 		
 		board.display();
@@ -152,7 +141,7 @@ public class CulminstingDriver extends Application {
 				direction = "UP";
 				try {
 					updateBoard(direction);
-					updateBoard2(board, slots);
+					updateSlots(board, slots);
 					moveCars();
 					
 				} catch (InterruptedException e) {
@@ -168,7 +157,7 @@ public class CulminstingDriver extends Application {
 				direction = "RIGHT";
 				try {
 					updateBoard(direction);
-					updateBoard2(board, slots);
+					updateSlots(board, slots);
 					moveCars();
 					
 				} catch (InterruptedException e) {
@@ -184,7 +173,7 @@ public class CulminstingDriver extends Application {
 				direction = "DOWN";
 				try {
 					updateBoard(direction);
-					updateBoard2(board, slots);
+					updateSlots(board, slots);
 					moveCars();
 					
 				} catch (InterruptedException e) {
@@ -200,7 +189,7 @@ public class CulminstingDriver extends Application {
 				direction = "LEFT";
 				try {
 					updateBoard(direction);
-					updateBoard2(board, slots);
+					updateSlots(board, slots);
 					moveCars();
 					
 				} catch (InterruptedException e) {
@@ -213,12 +202,13 @@ public class CulminstingDriver extends Application {
 		btnNONE.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				updateSlots(board, slots);
 				moveCars();
 			}
 		});
 		
 		
-		updateBoard2(board, slots);
+		updateSlots(board, slots);
 	
 			
 		selectorsROW1.getChildren().addAll(btnUP, btnNONE);
@@ -233,7 +223,7 @@ public class CulminstingDriver extends Application {
 		stage.show();
 	  }
 	
-	private void updateBoard2(Board board, Button[][] slots) {
+	private void updateSlots(Board board, Button[][] slots) {
 				
 		for (int i = 0; i < board.getRows(); i++) {
 			for (int j = 0; j < board.getCols(); j++) {
@@ -251,7 +241,6 @@ public class CulminstingDriver extends Application {
 					slots[i][j].setStyle("-fx-base: #ffff00;");
 					break;
 				case CAR:
-					System.out.println(i + ", " + j);
 					slots[i][j].setStyle("-fx-base: #808080;");
 					break;
 				case LOG:
@@ -272,7 +261,7 @@ public class CulminstingDriver extends Application {
 		
 		if(py > 0){
 			if(direction.equals("UP")) {
-				if(board.getCell(py-1, px).getState() == CellState.WATER) {
+				if(board.getCell(py-1, px).getState() == CellState.WATER || board.getCell(py-1, px).getState() == CellState.CAR) {
 					hurt();
 				}
 				else{
@@ -282,7 +271,7 @@ public class CulminstingDriver extends Application {
 		}
 		if(px < COLS-1){
 			if(direction.equals("RIGHT")) {
-				if(board.getCell(py, px+1).getState() == CellState.WATER) {
+				if(board.getCell(py, px+1).getState() == CellState.WATER || board.getCell(py, px+1).getState() == CellState.CAR) {
 					hurt();
 				}
 				else{
@@ -292,7 +281,7 @@ public class CulminstingDriver extends Application {
 		}
 		if(py < ROWS-1) {
 			if (direction.equals("DOWN")) {
-				if(board.getCell(py+1, px).getState() == CellState.WATER) {
+				if(board.getCell(py+1, px).getState() == CellState.WATER || board.getCell(py+1, px).getState() == CellState.CAR) {
 					hurt();
 				}
 				else{
@@ -303,7 +292,7 @@ public class CulminstingDriver extends Application {
 		
 		if(px > 0) { 
 			if(direction.equals("LEFT")) {
-				if(board.getCell(py, px-1).getState() == CellState.WATER) {
+				if(board.getCell(py, px-1).getState() == CellState.WATER || board.getCell(py, px-1).getState() == CellState.CAR) {
 					hurt();
 				}
 				else{
@@ -337,21 +326,30 @@ public class CulminstingDriver extends Application {
 	}
 	
 	public static void moveCars() {
-		for(int i = 0; i < lCars.length; i++) {
+		for(int i = 0; i < numLCars; i++) {
 			
-			board.getCell(lCars[i].getY(), lCars[i].getX()).setState(CellState.EMPTY);
-			System.out.println("x,y; " + lCars[i].getX() + ", " + lCars[i].getY());
-			lCars[i].setX(lCars[i].getX() + 1);
-			board.getCell(lCars[i].getY(), lCars[i].getX()).setState(CellState.CAR);
-			System.out.println("x,y; " + lCars[i].getX() + ", " + lCars[i].getY());
+			board.getCell(lCarCoords[i][1], lCarCoords[i][0]).setState(CellState.EMPTY);
+			
+			if(lCarCoords[i][0] == COLS-1) {
+				lCarCoords[i][0] = 0;
+			}
+			else{
+				lCarCoords[i][0]++;
+			}
+			board.getCell(lCarCoords[i][1], lCarCoords[i][0]).setState(CellState.CAR);
+			
 			
 		}
 		
-		for(int i = 0; i < rCars.length; i++) {
-			board.getCell(rCars[i].getY(), rCars[i].getX()).setState(CellState.EMPTY);
-			rCars[i].setX(rCars[i].getX() - 1);
-			board.getCell(rCars[i].getY(), rCars[i].getX()).setState(CellState.CAR);
+		for(int i = 0; i < numRCars; i++) {
+		
+			board.getCell(rCarCoords[i][1], rCarCoords[i][0]).setState(CellState.EMPTY);
 			
+			if(rCarCoords[i][0] == 0) {
+				rCarCoords[i][0]= COLS;
+			}
+			rCarCoords[i][0]--;
+			board.getCell(rCarCoords[i][1], rCarCoords[i][0]).setState(CellState.CAR);
 		}
 		
 	}
