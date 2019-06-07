@@ -43,6 +43,9 @@ public class CulminstingDriver extends Application {
 			{1,1},
 			{2,2},
 			{3,3},
+			{7,1},
+			{10,2},
+			{12,3},
 			
 	};
 	
@@ -50,13 +53,15 @@ public class CulminstingDriver extends Application {
 			{COLS-2,4},
 			{COLS-3,5},
 			{COLS-4,6},
+			{2,4},
+			{6,5},
+			{5,6},
 			
 	};
 	
 	static int[][] lLogCoords = {
-			{10,10},
-			{11,10},
-			{12,10},
+			{10,11},
+			{5,9},
 			
 	};
 	
@@ -64,6 +69,8 @@ public class CulminstingDriver extends Application {
 			{9,12},
 			{10,12},
 			{11,12},
+			{10,10},
+			{11,10},
 			
 	};
 	
@@ -75,6 +82,7 @@ public class CulminstingDriver extends Application {
 	
 	
 	boolean done = false;
+	boolean hurt = false;
 	
 	static Board board = new Board(ROWS, COLS);
 	static Button[][] slots = new Button[ROWS][COLS];
@@ -149,21 +157,46 @@ public class CulminstingDriver extends Application {
 		}
 		
 		
-		
+		//changes in car/log/player positions placed on clicks
 		btnUP.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				direction = "UP";
+			
 				try {
-					updateBoard(direction);
+					boolean hurt = updateBoard(direction);
+					
+					if (hurt) {
+						LifeScreen.display(lives);
+
+						}
+						if (lives == 0) {
+						StackPane sp = new StackPane();
+						sp.setAlignment(Pos.CENTER);
+						Label label = new Label("You have " + lives + " lives left");
+						Font font = new Font("Tahoma", 48);
+						label.setFont(font);
+						sp.getChildren().add(label);
+						Scene lose = new Scene(sp);
+						stage.setScene(lose);
+						stage.show();
+						}
+					
+					if(px == 7 && py == 0) {
+						stage.close();
+					}
+					
 					updateSlots(board, slots);
 					moveCars();
 					moveLogs();
+					
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+					
+				
 			}
 		});
 		
@@ -172,7 +205,28 @@ public class CulminstingDriver extends Application {
 			public void handle(ActionEvent event) {
 				direction = "RIGHT";
 				try {
-					updateBoard(direction);
+					boolean hurt = updateBoard(direction);
+					
+					if (hurt) {
+						LifeScreen.display(lives);
+
+						}
+						if (lives == 0) {
+						StackPane sp = new StackPane();
+						sp.setAlignment(Pos.CENTER);
+						Label label = new Label("You have " + lives + " lives left");
+						Font font = new Font("Tahoma", 48);
+						label.setFont(font);
+						sp.getChildren().add(label);
+						Scene lose = new Scene(sp);
+						stage.setScene(lose);
+						stage.show();
+						}
+					
+					if(px == 7 && py == 0) {
+						stage.close();
+					}
+					
 					updateSlots(board, slots);
 					moveCars();
 					moveLogs();
@@ -190,10 +244,32 @@ public class CulminstingDriver extends Application {
 			public void handle(ActionEvent event) {
 				direction = "DOWN";
 				try {
-					updateBoard(direction);
+					boolean hurt = updateBoard(direction);
+					
+					if (hurt) {
+						LifeScreen.display(lives);
+
+						}
+						if (lives == 0) {
+						StackPane sp = new StackPane();
+						sp.setAlignment(Pos.CENTER);
+						Label label = new Label("You have " + lives + " lives left");
+						Font font = new Font("Tahoma", 48);
+						label.setFont(font);
+						sp.getChildren().add(label);
+						Scene lose = new Scene(sp);
+						stage.setScene(lose);
+						stage.show();
+						}
+					
+					if(px == 7 && py == 0) {
+						stage.close();
+					}
+					
 					updateSlots(board, slots);
 					moveCars();
 					moveLogs();
+					
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -207,10 +283,33 @@ public class CulminstingDriver extends Application {
 			public void handle(ActionEvent event) {
 				direction = "LEFT";
 				try {
-					updateBoard(direction);
+					boolean hurt = updateBoard(direction);
+					
+					if (hurt) {
+						LifeScreen.display(lives);
+
+						}
+						if (lives == 0) {
+						StackPane sp = new StackPane();
+						sp.setAlignment(Pos.CENTER);
+						Label label = new Label("You have " + lives + " lives left");
+						Font font = new Font("Tahoma", 48);
+						label.setFont(font);
+						sp.getChildren().add(label);
+						Scene lose = new Scene(sp);
+						stage.setScene(lose);
+						stage.show();
+						}
+					
+					if(px == 7 && py == 0) {
+						stage.close();
+					}
+							
+						
 					updateSlots(board, slots);
 					moveCars();
 					moveLogs();
+					
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -272,10 +371,10 @@ public class CulminstingDriver extends Application {
 		}
 	}
 	
-	public static void updateBoard(String direction) throws InterruptedException {
+	public static boolean updateBoard(String direction) throws InterruptedException {
 		
 		
-		
+		boolean hurt = false;
 		board.display();
 		
 		board.getCell(py, px).setState(CellState.EMPTY);
@@ -284,6 +383,7 @@ public class CulminstingDriver extends Application {
 			if(direction.equals("UP")) {
 				if(board.getCell(py-1, px).getState() == CellState.WATER || board.getCell(py-1, px).getState() == CellState.CAR) {
 					hurt();
+					hurt = true;
 				}
 				else{
 					py --;
@@ -294,6 +394,7 @@ public class CulminstingDriver extends Application {
 			if(direction.equals("RIGHT")) {
 				if(board.getCell(py, px+1).getState() == CellState.WATER || board.getCell(py, px+1).getState() == CellState.CAR) {
 					hurt();
+					hurt = true;
 				}
 				else{
 					px ++;
@@ -304,6 +405,7 @@ public class CulminstingDriver extends Application {
 			if (direction.equals("DOWN")) {
 				if(board.getCell(py+1, px).getState() == CellState.WATER || board.getCell(py+1, px).getState() == CellState.CAR) {
 					hurt();
+					hurt = true;
 				}
 				else{
 					py ++;
@@ -315,6 +417,7 @@ public class CulminstingDriver extends Application {
 			if(direction.equals("LEFT")) {
 				if(board.getCell(py, px-1).getState() == CellState.WATER || board.getCell(py, px-1).getState() == CellState.CAR) {
 					hurt();
+					hurt = true;
 				}
 				else{
 					px --;
@@ -324,8 +427,11 @@ public class CulminstingDriver extends Application {
 		
 		
 		board.getCell(py, px).setState(CellState.P1);
-	
 		
+		
+		
+		
+		return hurt;
 	}
 	
 	
@@ -402,6 +508,8 @@ public class CulminstingDriver extends Application {
 			board.getCell(rLogCoords[i][1], rLogCoords[i][0]).setState(CellState.LOG);
 		}
 		
-	}
 	
+	
+		
+	}
 }
